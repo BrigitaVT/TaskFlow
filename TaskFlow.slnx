@@ -1,3 +1,13 @@
 <Solution>
-  <Project Path="TaskFlow.csproj" />
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="ARM64" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="TaskFlow.csproj" Id="e48dbd1f-8f1e-4ac8-9c6f-755c6df0053c">
+    <Platform Solution="*|ARM64" Project="ARM64" />
+    <Platform Solution="*|x64" Project="x64" />
+    <Platform Solution="*|x86" Project="x86" />
+  </Project>
 </Solution>
