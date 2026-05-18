@@ -99,5 +99,25 @@ namespace TaskFlow.Repositories
                 }
             }
         }
+
+        // Ištrina pasirinktą taską pagal jo ID
+        public void DeleteTask(int id)
+        {
+            using (var conn = new SqliteConnection(_connectionString))
+            {
+                conn.Open();
+
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText =
+                        @"DELETE FROM Tasks 
+                          WHERE Id = $id";
+
+                    cmd.Parameters.AddWithValue("$id", id);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }
