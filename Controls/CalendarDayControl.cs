@@ -1,0 +1,44 @@
+﻿using System;
+using System.Drawing;
+using System.Windows.Forms;
+
+namespace TaskFlow.Controls
+{
+    public class CalendarDayControl : Panel
+    {
+        public DateTime Date { get; private set; }
+
+        public CalendarDayControl()
+        {
+            Width = 120;
+            Height = 70;
+            BorderStyle = BorderStyle.FixedSingle;
+            BackColor = Color.White;
+        }
+
+        public void SetDay(DateTime date, string taskText = "")
+        {
+            Date = date;
+            Controls.Clear();
+
+            Label lblDay = new Label
+            {
+                Text = date.Day.ToString(),
+                Font = new Font("Segoe UI", 9, FontStyle.Bold),
+                Location = new Point(5, 5),
+                AutoSize = true
+            };
+
+            Label lblTask = new Label
+            {
+                Text = taskText,
+                Font = new Font("Segoe UI", 8),
+                Location = new Point(5, 25),
+                Size = new Size(105, 35)
+            };
+
+            Controls.Add(lblDay);
+            Controls.Add(lblTask);
+        }
+    }
+}

@@ -1,58 +1,85 @@
 ﻿using System;
-using System.Drawing;
 using System.Windows.Forms;
+using TaskFlow.Helpers;
 using TaskFlow.Models;
 using TaskFlow.Repositories;
+using TaskFlow.Controls;
 
 namespace TaskFlow
 {
     public partial class MainForm : Form
     {
-        // Repository atsakingas už darbą su SQLite DB
+
+        private DateTime _currentCalendarMonth = DateTime.Today;
+        // Repository darbui su SQLite DB
         private TaskRepository _repository = new TaskRepository();
 
         public MainForm()
         {
             InitializeComponent();
-            StyleSidebarButtons();
+
+            // Sidebar mygtukų stilius
+            UIHelper.StyleSidebarButtons(
+                new Button[] { Dashboard, MyTasks, Calendar, Statistics });
+
+            // DataGridView stilius
+            UIHelper.StyleDataGridView(dgvTasks);
+
+            // Užkrauna taskus paleidus programą
             LoadTasks();
         }
 
+        // Užkrauna taskus į lentelę
         private void LoadTasks()
         {
             dgvTasks.DataSource = null;
             dgvTasks.DataSource = _repository.GetAll();
 
+            // Paslepia techninį ID stulpelį
             if (dgvTasks.Columns["Id"] != null)
             {
                 dgvTasks.Columns["Id"].Visible = false;
             }
         }
-
-        private void StyleSidebarButtons()
+        private void LoadCalendar()
         {
-            Button[] buttons = { Dashboard, MyTasks, Calendar, Statistics };
+            flpCalendar.Controls.Clear();
 
-            int top = 80;
+            var tasks = _repository.GetAll();
 
-            foreach (Button btn in buttons)
+            DateTime start = new DateTime(
+                _currentCalendarMonth.Year,
+                _currentCalendarMonth.Month,
+                1);
+
+            // Viršuje rodo tik mėnesį
+            lblCalendarTitle.Text =
+                _currentCalendarMonth.ToString("MMMM yyyy");
+
+            for (int i = 0; i < 35; i++)
             {
-                btn.Width = 180;
-                btn.Height = 45;
-                btn.Left = 20;
-                btn.Top = top;
+                CalendarDayControl day = new CalendarDayControl();
 
-                btn.FlatStyle = FlatStyle.Flat;
-                btn.FlatAppearance.BorderSize = 0;
-                btn.BackColor = Color.SteelBlue;
-                btn.ForeColor = Color.White;
-                btn.Font = new Font("Segoe UI", 10, FontStyle.Bold);
-                btn.Cursor = Cursors.Hand;
+                DateTime currentDay = start.AddDays(i);
 
-                top += 60;
+                string taskText = "";
+
+                foreach (var task in tasks)
+                {
+                    if (task.StartDate.Date == currentDay.Date)
+                    {
+                        // Dienos langelyje rodo task pavadinimą ir žmogų
+                        taskText += task.Name + "\n" + task.UserName + "\n";
+                    }
+                }
+
+                day.SetDay(currentDay, taskText);
+
+                flpCalendar.Controls.Add(day);
             }
         }
 
+        // Add Task mygtukas
         private void btnAddTask_Click(object sender, EventArgs e)
         {
             AddTask addTaskForm = new AddTask();
@@ -76,11 +103,13 @@ namespace TaskFlow
             }
         }
 
+        // Delete Task mygtukas
         private void btnDeleteTask_Click(object sender, EventArgs e)
         {
             if (dgvTasks.SelectedRows.Count > 0)
             {
-                int id = Convert.ToInt32(dgvTasks.SelectedRows[0].Cells["Id"].Value);
+                int id = Convert.ToInt32(
+                    dgvTasks.SelectedRows[0].Cells["Id"].Value);
 
                 DialogResult result = MessageBox.Show(
                     "Are you sure you want to delete this task?",
@@ -102,12 +131,70 @@ namespace TaskFlow
             }
         }
 
-        private void Dashboard_Click(object sender, EventArgs e) { }
+        // // Dashboard mygtukas – grąžina į pagrindinį užduočių vaizdą
+        private void Dashboard_Click(object sender, EventArgs e)
+        {
+            LoadTasks();
 
-        private void MyTasks_Click(object sender, EventArgs e) { }
+            dgvTasks.Visible = true;
+            btnAddTask.Visible = true;
+            btnDeleteTask.Visible = true;
+            flpCalendar.Visible = false;
+            btnPreviousMonth.Visible = false;
+            btnNextMonth.Visible = false;
+            lblCalendarTitle.Visible = false;
+        }
 
-        private void Calendar_Click_1(object sender, EventArgs e) { }
+        // My Tasks mygtukas – rodo visas užduotis
+        private void MyTasks_Click(object sender, EventArgs e)
+        {
+            LoadTasks();
 
-        private void Statistics_Click_1(object sender, EventArgs e) { }
+            dgvTasks.Visible = true;
+            btnAddTask.Visible = true;
+            btnDeleteTask.Visible = true;
+            flpCalendar.Visible = false;
+            btnPreviousMonth.Visible = false;
+            btnNextMonth.Visible = false;
+            lblCalendarTitle.Visible = false;
+        }
+
+        // Calendar mygtukas – rodo kalendoriaus vaizdą
+        private void Calendar_Click_1(object sender, EventArgs e)
+        {
+            dgvTasks.Visible = false;
+            btnAddTask.Visible = false;
+            btnDeleteTask.Visible = false;
+            btnPreviousMonth.Visible = true;
+            btnNextMonth.Visible = true;
+            lblCalendarTitle.Visible = true;
+
+            flpCalendar.Visible = true;
+            LoadCalendar();
+        }
+
+
+        // Statistics mygtukas – vėliau čia bus statistikos vaizdas
+        private void Statistics_Click_1(object sender, EventArgs e)
+        {
+            MessageBox.Show("Statistics view will be added later.");
+        }
+
+        private void btnPreviousMonth_Click(object sender, EventArgs e)
+        {
+            _currentCalendarMonth =
+                _currentCalendarMonth.AddMonths(-1);
+
+            LoadCalendar();
+        }
+
+
+        private void btnNextMonth_Click(object sender, EventArgs e)
+        {
+            _currentCalendarMonth =
+                _currentCalendarMonth.AddMonths(1);
+
+            LoadCalendar();
+        }
     }
 }

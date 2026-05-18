@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.btnAddTask = new System.Windows.Forms.Button();
             this.dgvTasks = new System.Windows.Forms.DataGridView();
             this.sidebarPanel1 = new System.Windows.Forms.Panel();
@@ -37,6 +37,10 @@
             this.Statistics = new System.Windows.Forms.Button();
             this.Dashboard = new System.Windows.Forms.Button();
             this.btnDeleteTask = new System.Windows.Forms.Button();
+            this.flpCalendar = new System.Windows.Forms.FlowLayoutPanel();
+            this.lblCalendarTitle = new System.Windows.Forms.Label();
+            this.btnPreviousMonth = new System.Windows.Forms.Button();
+            this.btnNextMonth = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTasks)).BeginInit();
             this.sidebarPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -47,7 +51,7 @@
             this.btnAddTask.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAddTask.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAddTask.ForeColor = System.Drawing.Color.White;
-            this.btnAddTask.Location = new System.Drawing.Point(237, 33);
+            this.btnAddTask.Location = new System.Drawing.Point(385, 33);
             this.btnAddTask.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnAddTask.Name = "btnAddTask";
             this.btnAddTask.Size = new System.Drawing.Size(170, 45);
@@ -61,25 +65,25 @@
             this.dgvTasks.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.ColumnHeader;
             this.dgvTasks.BackgroundColor = System.Drawing.Color.White;
             this.dgvTasks.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.LightSteelBlue;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI Emoji", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvTasks.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.BackColor = System.Drawing.Color.LightSteelBlue;
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI Emoji", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvTasks.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
             this.dgvTasks.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvTasks.EnableHeadersVisualStyles = false;
             this.dgvTasks.GridColor = System.Drawing.Color.Gainsboro;
-            this.dgvTasks.Location = new System.Drawing.Point(300, 140);
+            this.dgvTasks.Location = new System.Drawing.Point(246, 103);
             this.dgvTasks.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgvTasks.MultiSelect = false;
             this.dgvTasks.Name = "dgvTasks";
             this.dgvTasks.RowHeadersWidth = 51;
             this.dgvTasks.RowTemplate.Height = 24;
             this.dgvTasks.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvTasks.Size = new System.Drawing.Size(800, 500);
+            this.dgvTasks.Size = new System.Drawing.Size(642, 503);
             this.dgvTasks.TabIndex = 1;
             // 
             // sidebarPanel1
@@ -144,7 +148,7 @@
             this.btnDeleteTask.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDeleteTask.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDeleteTask.ForeColor = System.Drawing.Color.White;
-            this.btnDeleteTask.Location = new System.Drawing.Point(413, 33);
+            this.btnDeleteTask.Location = new System.Drawing.Point(581, 33);
             this.btnDeleteTask.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnDeleteTask.Name = "btnDeleteTask";
             this.btnDeleteTask.Size = new System.Drawing.Size(170, 45);
@@ -153,12 +157,60 @@
             this.btnDeleteTask.UseVisualStyleBackColor = false;
             this.btnDeleteTask.Click += new System.EventHandler(this.btnDeleteTask_Click);
             // 
+            // flpCalendar
+            // 
+            this.flpCalendar.AutoScroll = true;
+            this.flpCalendar.Location = new System.Drawing.Point(300, 140);
+            this.flpCalendar.Name = "flpCalendar";
+            this.flpCalendar.Size = new System.Drawing.Size(850, 500);
+            this.flpCalendar.TabIndex = 4;
+            this.flpCalendar.Visible = false;
+            // 
+            // lblCalendarTitle
+            // 
+            this.lblCalendarTitle.AutoSize = true;
+            this.lblCalendarTitle.Font = new System.Drawing.Font("Segoe UI", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCalendarTitle.Location = new System.Drawing.Point(470, 90);
+            this.lblCalendarTitle.Name = "lblCalendarTitle";
+            this.lblCalendarTitle.Size = new System.Drawing.Size(172, 38);
+            this.lblCalendarTitle.TabIndex = 5;
+            this.lblCalendarTitle.Text = "Kalendorius";
+            this.lblCalendarTitle.Visible = false;
+            // 
+            // btnPreviousMonth
+            // 
+            this.btnPreviousMonth.Enabled = false;
+            this.btnPreviousMonth.Location = new System.Drawing.Point(420, 90);
+            this.btnPreviousMonth.Name = "btnPreviousMonth";
+            this.btnPreviousMonth.Size = new System.Drawing.Size(40, 35);
+            this.btnPreviousMonth.TabIndex = 6;
+            this.btnPreviousMonth.Text = "<";
+            this.btnPreviousMonth.UseVisualStyleBackColor = true;
+            this.btnPreviousMonth.Visible = false;
+            this.btnPreviousMonth.Click += new System.EventHandler(this.btnPreviousMonth_Click);
+            // 
+            // btnNextMonth
+            // 
+            this.btnNextMonth.Enabled = false;
+            this.btnNextMonth.Location = new System.Drawing.Point(700, 90);
+            this.btnNextMonth.Name = "btnNextMonth";
+            this.btnNextMonth.Size = new System.Drawing.Size(40, 35);
+            this.btnNextMonth.TabIndex = 8;
+            this.btnNextMonth.Text = ">";
+            this.btnNextMonth.UseVisualStyleBackColor = true;
+            this.btnNextMonth.Visible = false;
+            this.btnNextMonth.Click += new System.EventHandler(this.btnNextMonth_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 22F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
             this.ClientSize = new System.Drawing.Size(900, 619);
+            this.Controls.Add(this.btnNextMonth);
+            this.Controls.Add(this.btnPreviousMonth);
+            this.Controls.Add(this.lblCalendarTitle);
+            this.Controls.Add(this.flpCalendar);
             this.Controls.Add(this.btnDeleteTask);
             this.Controls.Add(this.sidebarPanel1);
             this.Controls.Add(this.btnAddTask);
@@ -171,6 +223,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgvTasks)).EndInit();
             this.sidebarPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -184,6 +237,10 @@
         private System.Windows.Forms.Button Statistics;
         private System.Windows.Forms.Button Dashboard;
         private System.Windows.Forms.Button btnDeleteTask;
+        private System.Windows.Forms.FlowLayoutPanel flpCalendar;
+        private System.Windows.Forms.Label lblCalendarTitle;
+        private System.Windows.Forms.Button btnPreviousMonth;
+        private System.Windows.Forms.Button btnNextMonth;
     }
 }
 
