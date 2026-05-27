@@ -14,10 +14,12 @@ namespace TaskFlow
         private DateTime _currentCalendarMonth = DateTime.Today;
         // Repository darbui su SQLite DB
         private TaskRepository _repository = new TaskRepository();
-
-        public MainForm()
+        private string _currentUserName;
+        public MainForm(string userName)
         {
             InitializeComponent();
+
+            _currentUserName = userName;
 
             // Kalendoriaus elementai pradžioje paslėpti
             btnPreviousMonth.Visible = false;
@@ -25,9 +27,7 @@ namespace TaskFlow
             lblCalendarTitle.Visible = false;
             flpCalendar.Visible = false;
 
-            // Prijungia kalendoriaus mėnesių mygtukus
-            btnPreviousMonth.Click += btnPreviousMonth_Click;
-            btnNextMonth.Click += btnNextMonth_Click;
+            
 
             // Užtikrina kad būtų virš kalendoriaus
             btnPreviousMonth.BringToFront();
@@ -134,7 +134,7 @@ namespace TaskFlow
                     StartDate = addTaskForm.StartDate,
                     EndDate = addTaskForm.EndDate,
                     Status = "Planned",
-                    UserName = "Brigita"
+                    UserName = _currentUserName
                 };
 
                 _repository.AddTask(task);

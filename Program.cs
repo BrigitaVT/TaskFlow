@@ -1,6 +1,7 @@
 ﻿using SQLitePCL;
 using System;
 using System.Windows.Forms;
+using TaskFlow.Forms;
 using TaskFlow.Repositories;
 
 namespace TaskFlow
@@ -17,7 +18,13 @@ namespace TaskFlow
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+            LoginForm loginForm = new LoginForm();
+
+            if (loginForm.ShowDialog() == DialogResult.OK)
+            {
+                Application.Run(
+                    new MainForm(loginForm.UserName));
+            }
         }
     }
 }

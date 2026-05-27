@@ -1,4 +1,5 @@
-﻿namespace TaskFlow
+﻿using System.Windows.Forms;
+namespace TaskFlow
 {
     partial class AddTask
     {
@@ -20,7 +21,7 @@
             base.Dispose(disposing);
         }
 
-        #region Component Designer generated code
+        #region Windows Form Designer generated code
 
         /// <summary> 
         /// Required method for Designer support - do not modify 

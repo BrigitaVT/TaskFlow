@@ -144,6 +144,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\AddTask.Designer.cs" />
+    <Compile Include="Forms\LoginForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
