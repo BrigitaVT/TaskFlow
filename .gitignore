@@ -6,3 +6,5 @@ obj/
 packages/
 *.db-lock
 .gnupg/
+nuget.exe
+*.db

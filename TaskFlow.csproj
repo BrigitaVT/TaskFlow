@@ -4,7 +4,7 @@
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProjectGuid>{E48DBD1F-8F1E-4AC8-9C6F-755C6DF0053C}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>TaskFlow</RootNamespace>
@@ -198,4 +198,15 @@
     <Error Condition="!Exists('packages\SourceGear.sqlite3.3.50.4.5\build\net471\SourceGear.sqlite3.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\SourceGear.sqlite3.3.50.4.5\build\net471\SourceGear.sqlite3.targets'))" />
   </Target>
   <Import Project="packages\SourceGear.sqlite3.3.50.4.5\build\net471\SourceGear.sqlite3.targets" Condition="Exists('packages\SourceGear.sqlite3.3.50.4.5\build\net471\SourceGear.sqlite3.targets')" />
+
+  <Target Name="CopyNativeSQLite" AfterTargets="Build">
+    <PropertyGroup>
+      <SQLitePackage>packages\SQLitePCLRaw.lib.e_sqlite3.2.1.11</SQLitePackage>
+    </PropertyGroup>
+    <ItemGroup>
+      <SQLiteNative Include="$(SQLitePackage)\runtimes\win-$(Platform)\native\e_sqlite3.dll" Condition="Exists('$(SQLitePackage)\\runtimes\\win-$(Platform)\\native\\e_sqlite3.dll')" />
+      <SQLiteNative Include="$(SQLitePackage)\runtimes\win-x86\native\e_sqlite3.dll" Condition="Exists('$(SQLitePackage)\\runtimes\\win-x86\\native\\e_sqlite3.dll') and ('$(Platform)' == 'AnyCPU' or '$(Platform)' == '')" />
+    </ItemGroup>
+    <Copy SourceFiles="@(SQLiteNative)" DestinationFolder="$(OutputPath)" SkipUnchangedFiles="true" Condition="@(SQLiteNative) != ''" />
+  </Target>
 </Project>

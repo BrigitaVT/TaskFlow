@@ -1,6 +1,6 @@
-﻿using System;
+﻿using SQLitePCL;
+using System;
 using System.Windows.Forms;
-using SQLitePCL;
 using TaskFlow.Repositories;
 
 namespace TaskFlow
