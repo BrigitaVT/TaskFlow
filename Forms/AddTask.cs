@@ -14,6 +14,7 @@ namespace TaskFlow
 {
     public partial class AddTask : Form
     {
+
         public TaskItem TaskResult { get; set; }
 
         public string TaskName => TaskTitleText.Text;
@@ -37,5 +38,14 @@ namespace TaskFlow
             DialogResult = DialogResult.Cancel;
             Close();
         }
+        public void SetTask(TaskItem task)
+        {
+            TaskTitleText.Text = task.Name;
+            TaskDescriptionText.Text = task.Description;
+            StartDatePicker.Value = task.StartDate;
+            EndDatePicker.Value = task.EndDate;
+        }
+
+        
     }
 }

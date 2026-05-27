@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Forms;
+using TaskFlow.Controls;
 using TaskFlow.Helpers;
 using TaskFlow.Models;
 using TaskFlow.Repositories;
-using TaskFlow.Controls;
 
 namespace TaskFlow
 {
@@ -18,6 +19,21 @@ namespace TaskFlow
         {
             InitializeComponent();
 
+            // Kalendoriaus elementai pradžioje paslėpti
+            btnPreviousMonth.Visible = false;
+            btnNextMonth.Visible = false;
+            lblCalendarTitle.Visible = false;
+            flpCalendar.Visible = false;
+
+            // Prijungia kalendoriaus mėnesių mygtukus
+            btnPreviousMonth.Click += btnPreviousMonth_Click;
+            btnNextMonth.Click += btnNextMonth_Click;
+
+            // Užtikrina kad būtų virš kalendoriaus
+            btnPreviousMonth.BringToFront();
+            btnNextMonth.BringToFront();
+            lblCalendarTitle.BringToFront();
+
             // Sidebar mygtukų stilius
             UIHelper.StyleSidebarButtons(
                 new Button[] { Dashboard, MyTasks, Calendar, Statistics });
@@ -25,10 +41,9 @@ namespace TaskFlow
             // DataGridView stilius
             UIHelper.StyleDataGridView(dgvTasks);
 
-            // Užkrauna taskus paleidus programą
+            // Užkrauna taskus
             LoadTasks();
         }
-
         // Užkrauna taskus į lentelę
         private void LoadTasks()
         {
@@ -47,20 +62,27 @@ namespace TaskFlow
 
             var tasks = _repository.GetAll();
 
-            DateTime start = new DateTime(
-                _currentCalendarMonth.Year,
-                _currentCalendarMonth.Month,
-                1);
+            DateTime firstDay =
+                new DateTime(
+                    _currentCalendarMonth.Year,
+                    _currentCalendarMonth.Month,
+                    1);
 
-            // Viršuje rodo tik mėnesį
             lblCalendarTitle.Text =
                 _currentCalendarMonth.ToString("MMMM yyyy");
 
-            for (int i = 0; i < 35; i++)
-            {
-                CalendarDayControl day = new CalendarDayControl();
+            int daysInMonth =
+                DateTime.DaysInMonth(
+                    _currentCalendarMonth.Year,
+                    _currentCalendarMonth.Month);
 
-                DateTime currentDay = start.AddDays(i);
+            for (int i = 0; i < daysInMonth; i++)
+            {
+                CalendarDayControl day =
+                    new CalendarDayControl();
+
+                DateTime currentDay =
+                    firstDay.AddDays(i);
 
                 string taskText = "";
 
@@ -68,8 +90,11 @@ namespace TaskFlow
                 {
                     if (task.StartDate.Date == currentDay.Date)
                     {
-                        // Dienos langelyje rodo task pavadinimą ir žmogų
-                        taskText += task.Name + "\n" + task.UserName + "\n";
+                        taskText +=
+                            task.Name +
+                            "\n" +
+                            task.UserName +
+                            "\n";
                     }
                 }
 
@@ -143,20 +168,33 @@ namespace TaskFlow
             btnPreviousMonth.Visible = false;
             btnNextMonth.Visible = false;
             lblCalendarTitle.Visible = false;
+            btnEditTask.Visible = true;
         }
 
         // My Tasks mygtukas – rodo visas užduotis
         private void MyTasks_Click(object sender, EventArgs e)
         {
-            LoadTasks();
-
             dgvTasks.Visible = true;
+
             btnAddTask.Visible = true;
             btnDeleteTask.Visible = true;
+            btnEditTask.Visible = true;
+
             flpCalendar.Visible = false;
             btnPreviousMonth.Visible = false;
             btnNextMonth.Visible = false;
             lblCalendarTitle.Visible = false;
+
+            dgvTasks.DataSource = null;
+
+            dgvTasks.DataSource =
+                _repository
+                .GetAll()
+                .Where(t => t.UserName == "Brigita")
+                .ToList();
+
+            if (dgvTasks.Columns["Id"] != null)
+                dgvTasks.Columns["Id"].Visible = false;
         }
 
         // Calendar mygtukas – rodo kalendoriaus vaizdą
@@ -168,6 +206,7 @@ namespace TaskFlow
             btnPreviousMonth.Visible = true;
             btnNextMonth.Visible = true;
             lblCalendarTitle.Visible = true;
+            btnEditTask.Visible = false;
 
             flpCalendar.Visible = true;
             LoadCalendar();
@@ -195,6 +234,36 @@ namespace TaskFlow
                 _currentCalendarMonth.AddMonths(1);
 
             LoadCalendar();
+        }
+
+        private void btnEditTask_Click(object sender, EventArgs e)
+        {
+            if (dgvTasks.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Please select a task first.");
+                return;
+            }
+
+            TaskItem selectedTask =
+                (TaskItem)dgvTasks.SelectedRows[0].DataBoundItem;
+
+            AddTask editForm = new AddTask();
+
+            editForm.SetTask(selectedTask);
+
+            if (editForm.ShowDialog() == DialogResult.OK)
+            {
+                selectedTask.Name = editForm.TaskName;
+                selectedTask.Description = editForm.TaskDescription;
+                selectedTask.StartDate = editForm.StartDate;
+                selectedTask.EndDate = editForm.EndDate;
+
+                _repository.UpdateTask(selectedTask);
+
+                LoadTasks();
+
+                MessageBox.Show("Task updated successfully!");
+            }
         }
     }
 }

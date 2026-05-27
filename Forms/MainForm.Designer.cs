@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.btnAddTask = new System.Windows.Forms.Button();
             this.dgvTasks = new System.Windows.Forms.DataGridView();
             this.sidebarPanel1 = new System.Windows.Forms.Panel();
@@ -41,6 +41,7 @@
             this.lblCalendarTitle = new System.Windows.Forms.Label();
             this.btnPreviousMonth = new System.Windows.Forms.Button();
             this.btnNextMonth = new System.Windows.Forms.Button();
+            this.btnEditTask = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTasks)).BeginInit();
             this.sidebarPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -51,7 +52,7 @@
             this.btnAddTask.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAddTask.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAddTask.ForeColor = System.Drawing.Color.White;
-            this.btnAddTask.Location = new System.Drawing.Point(385, 33);
+            this.btnAddTask.Location = new System.Drawing.Point(430, 55);
             this.btnAddTask.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnAddTask.Name = "btnAddTask";
             this.btnAddTask.Size = new System.Drawing.Size(170, 45);
@@ -65,14 +66,14 @@
             this.dgvTasks.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.ColumnHeader;
             this.dgvTasks.BackgroundColor = System.Drawing.Color.White;
             this.dgvTasks.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = System.Drawing.Color.LightSteelBlue;
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Segoe UI Emoji", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvTasks.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.LightSteelBlue;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI Emoji", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvTasks.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dgvTasks.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvTasks.EnableHeadersVisualStyles = false;
             this.dgvTasks.GridColor = System.Drawing.Color.Gainsboro;
@@ -148,7 +149,7 @@
             this.btnDeleteTask.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnDeleteTask.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDeleteTask.ForeColor = System.Drawing.Color.White;
-            this.btnDeleteTask.Location = new System.Drawing.Point(581, 33);
+            this.btnDeleteTask.Location = new System.Drawing.Point(870, 55);
             this.btnDeleteTask.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnDeleteTask.Name = "btnDeleteTask";
             this.btnDeleteTask.Size = new System.Drawing.Size(170, 45);
@@ -170,43 +171,55 @@
             // 
             this.lblCalendarTitle.AutoSize = true;
             this.lblCalendarTitle.Font = new System.Drawing.Font("Segoe UI", 16.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCalendarTitle.Location = new System.Drawing.Point(470, 90);
+            this.lblCalendarTitle.Location = new System.Drawing.Point(510, 90);
             this.lblCalendarTitle.Name = "lblCalendarTitle";
-            this.lblCalendarTitle.Size = new System.Drawing.Size(172, 38);
+            this.lblCalendarTitle.Size = new System.Drawing.Size(135, 30);
             this.lblCalendarTitle.TabIndex = 5;
             this.lblCalendarTitle.Text = "Kalendorius";
             this.lblCalendarTitle.Visible = false;
             // 
             // btnPreviousMonth
             // 
-            this.btnPreviousMonth.Enabled = false;
             this.btnPreviousMonth.Location = new System.Drawing.Point(420, 90);
             this.btnPreviousMonth.Name = "btnPreviousMonth";
             this.btnPreviousMonth.Size = new System.Drawing.Size(40, 35);
             this.btnPreviousMonth.TabIndex = 6;
             this.btnPreviousMonth.Text = "<";
             this.btnPreviousMonth.UseVisualStyleBackColor = true;
-            this.btnPreviousMonth.Visible = false;
             this.btnPreviousMonth.Click += new System.EventHandler(this.btnPreviousMonth_Click);
             // 
             // btnNextMonth
             // 
-            this.btnNextMonth.Enabled = false;
             this.btnNextMonth.Location = new System.Drawing.Point(700, 90);
             this.btnNextMonth.Name = "btnNextMonth";
             this.btnNextMonth.Size = new System.Drawing.Size(40, 35);
             this.btnNextMonth.TabIndex = 8;
             this.btnNextMonth.Text = ">";
             this.btnNextMonth.UseVisualStyleBackColor = true;
-            this.btnNextMonth.Visible = false;
             this.btnNextMonth.Click += new System.EventHandler(this.btnNextMonth_Click);
+            // 
+            // btnEditTask
+            // 
+            this.btnEditTask.BackColor = System.Drawing.Color.LightCoral;
+            this.btnEditTask.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnEditTask.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEditTask.ForeColor = System.Drawing.Color.White;
+            this.btnEditTask.Location = new System.Drawing.Point(650, 55);
+            this.btnEditTask.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.btnEditTask.Name = "btnEditTask";
+            this.btnEditTask.Size = new System.Drawing.Size(170, 45);
+            this.btnEditTask.TabIndex = 9;
+            this.btnEditTask.Text = "Edit Task";
+            this.btnEditTask.UseVisualStyleBackColor = false;
+            this.btnEditTask.Click += new System.EventHandler(this.btnEditTask_Click);
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 22F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
             this.ClientSize = new System.Drawing.Size(900, 619);
+            this.Controls.Add(this.btnEditTask);
             this.Controls.Add(this.btnNextMonth);
             this.Controls.Add(this.btnPreviousMonth);
             this.Controls.Add(this.lblCalendarTitle);
@@ -241,6 +254,7 @@
         private System.Windows.Forms.Label lblCalendarTitle;
         private System.Windows.Forms.Button btnPreviousMonth;
         private System.Windows.Forms.Button btnNextMonth;
+        private System.Windows.Forms.Button btnEditTask;
     }
 }
 

@@ -99,6 +99,37 @@ namespace TaskFlow.Repositories
                 }
             }
         }
+        // Atnaujina pasirinktą taską pagal ID
+        public void UpdateTask(TaskItem task)
+        {
+            using (var conn = new SqliteConnection(_connectionString))
+            {
+                conn.Open();
+
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText =
+                        @"UPDATE Tasks
+                  SET Name = $name,
+                      Description = $description,
+                      StartDate = $start,
+                      EndDate = $end,
+                      Status = $status,
+                      UserName = $user
+                  WHERE Id = $id";
+
+                    cmd.Parameters.AddWithValue("$id", task.Id);
+                    cmd.Parameters.AddWithValue("$name", task.Name ?? "");
+                    cmd.Parameters.AddWithValue("$description", task.Description ?? "");
+                    cmd.Parameters.AddWithValue("$start", task.StartDate.ToString("yyyy-MM-dd HH:mm"));
+                    cmd.Parameters.AddWithValue("$end", task.EndDate.ToString("yyyy-MM-dd HH:mm"));
+                    cmd.Parameters.AddWithValue("$status", task.Status ?? "");
+                    cmd.Parameters.AddWithValue("$user", task.UserName ?? "");
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
 
         // Ištrina pasirinktą taską pagal jo ID
         public void DeleteTask(int id)
