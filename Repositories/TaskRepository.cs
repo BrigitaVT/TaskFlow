@@ -22,15 +22,17 @@ namespace TaskFlow.Repositories
 
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"CREATE TABLE IF NOT EXISTS Tasks(
-                        Id INTEGER PRIMARY KEY AUTOINCREMENT,
-                        Name TEXT,
-                        Description TEXT,
-                        StartDate TEXT,
-                        EndDate TEXT,
-                        Status TEXT,
-                        UserName TEXT
-                    );";
+                    cmd.CommandText = @"
+                CREATE TABLE IF NOT EXISTS Tasks(
+                    Id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    Name TEXT,
+                    Description TEXT,
+                    StartDate TEXT,
+                    EndDate TEXT,
+                    Status TEXT,
+                    Priority TEXT,
+                    UserName TEXT
+                );";
 
                     cmd.ExecuteNonQuery();
                 }
@@ -48,7 +50,9 @@ namespace TaskFlow.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText =
-                        "SELECT Id, Name, Description, StartDate, EndDate, Status, UserName FROM Tasks ORDER BY StartDate";
+    @"SELECT Id, Name, Description, StartDate, EndDate,
+      Status, Priority, UserName
+      FROM Tasks";
 
                     using (var reader = cmd.ExecuteReader())
                     {
@@ -62,7 +66,8 @@ namespace TaskFlow.Repositories
                                 StartDate = DateTime.Parse(reader.GetString(3)),
                                 EndDate = DateTime.Parse(reader.GetString(4)),
                                 Status = reader.IsDBNull(5) ? "" : reader.GetString(5),
-                                UserName = reader.IsDBNull(6) ? "" : reader.GetString(6)
+                                Priority = reader.IsDBNull(6) ? "" : reader.GetString(6),
+                                UserName = reader.IsDBNull(7) ? "" : reader.GetString(7)
                             };
 
                             list.Add(task);
@@ -84,15 +89,16 @@ namespace TaskFlow.Repositories
                 {
                     cmd.CommandText =
                         @"INSERT INTO Tasks 
-                        (Name, Description, StartDate, EndDate, Status, UserName) 
+                        (Name, Description, StartDate, EndDate, Status, Priority, UserName) 
                         VALUES 
-                        ($name, $description, $start, $end, $status, $user)";
+                        ($name, $description, $start, $end, $status, $priority, $user)";
 
                     cmd.Parameters.AddWithValue("$name", task.Name ?? "");
                     cmd.Parameters.AddWithValue("$description", task.Description ?? "");
                     cmd.Parameters.AddWithValue("$start", task.StartDate.ToString("yyyy-MM-dd HH:mm"));
                     cmd.Parameters.AddWithValue("$end", task.EndDate.ToString("yyyy-MM-dd HH:mm"));
                     cmd.Parameters.AddWithValue("$status", task.Status ?? "");
+                    cmd.Parameters.AddWithValue("$priority", task.Priority ?? "");
                     cmd.Parameters.AddWithValue("$user", task.UserName ?? "");
 
                     cmd.ExecuteNonQuery();
@@ -115,6 +121,7 @@ namespace TaskFlow.Repositories
                       StartDate = $start,
                       EndDate = $end,
                       Status = $status,
+                      Priority = $priority,
                       UserName = $user
                   WHERE Id = $id";
 
@@ -124,6 +131,7 @@ namespace TaskFlow.Repositories
                     cmd.Parameters.AddWithValue("$start", task.StartDate.ToString("yyyy-MM-dd HH:mm"));
                     cmd.Parameters.AddWithValue("$end", task.EndDate.ToString("yyyy-MM-dd HH:mm"));
                     cmd.Parameters.AddWithValue("$status", task.Status ?? "");
+                    cmd.Parameters.AddWithValue("$priority", task.Priority ?? "");
                     cmd.Parameters.AddWithValue("$user", task.UserName ?? "");
 
                     cmd.ExecuteNonQuery();

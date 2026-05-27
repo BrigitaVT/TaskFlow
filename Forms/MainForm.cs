@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using TaskFlow.Controls;
@@ -10,117 +11,153 @@ namespace TaskFlow
 {
     public partial class MainForm : Form
     {
-
         private DateTime _currentCalendarMonth = DateTime.Today;
-        // Repository darbui su SQLite DB
         private TaskRepository _repository = new TaskRepository();
         private string _currentUserName;
+
         public MainForm(string userName)
         {
             InitializeComponent();
 
             _currentUserName = userName;
+            _repository.EnsureDatabase();
 
-            // Kalendoriaus elementai pradžioje paslėpti
             btnPreviousMonth.Visible = false;
             btnNextMonth.Visible = false;
             lblCalendarTitle.Visible = false;
             flpCalendar.Visible = false;
 
-            
-
-            // Užtikrina kad būtų virš kalendoriaus
             btnPreviousMonth.BringToFront();
             btnNextMonth.BringToFront();
             lblCalendarTitle.BringToFront();
 
-            // Sidebar mygtukų stilius
             UIHelper.StyleSidebarButtons(
                 new Button[] { Dashboard, MyTasks, Calendar, Statistics });
 
-            // DataGridView stilius
             UIHelper.StyleDataGridView(dgvTasks);
 
-            // Užkrauna taskus
-            ShowDashboard();
+            ShowCalendarView();
         }
-        // Užkrauna taskus į lentelę
+
         private void LoadTasks()
         {
             dgvTasks.DataSource = null;
             dgvTasks.DataSource = _repository.GetAll();
 
-            // Paslepia techninį ID stulpelį
+            FormatGridColumns();
+            ColorPriorityRows();
+        }
+
+        private void FormatGridColumns()
+        {
             if (dgvTasks.Columns["Id"] != null)
-            {
                 dgvTasks.Columns["Id"].Visible = false;
+
+            if (dgvTasks.Columns["Priority"] != null)
+                dgvTasks.Columns["Priority"].HeaderText = "Svarbumas";
+
+            if (dgvTasks.Columns["Status"] != null)
+                dgvTasks.Columns["Status"].HeaderText = "Būsena";
+
+            if (dgvTasks.Columns["UserName"] != null)
+                dgvTasks.Columns["UserName"].HeaderText = "Naudotojas";
+        }
+
+        private void ColorPriorityRows()
+        {
+            foreach (DataGridViewRow row in dgvTasks.Rows)
+            {
+                if (row.Cells["Priority"].Value == null)
+                    continue;
+
+                string priority = row.Cells["Priority"].Value.ToString();
+
+                if (priority == "High")
+                    row.DefaultCellStyle.BackColor = Color.LightCoral;
+                else if (priority == "Medium")
+                    row.DefaultCellStyle.BackColor = Color.Khaki;
+                else if (priority == "Low")
+                    row.DefaultCellStyle.BackColor = Color.LightGreen;
             }
         }
-        private void ShowDashboard()
-{
-    LoadCalendar();
 
-    dgvTasks.Visible = false;
+        private void ShowCalendarView()
+        {
+            LoadCalendar();
 
-    btnAddTask.Visible = false;
-    btnEditTask.Visible = false;
-    btnDeleteTask.Visible = false;
+            dgvTasks.Visible = false;
+            btnAddTask.Visible = false;
+            btnEditTask.Visible = false;
+            btnDeleteTask.Visible = false;
 
-    flpCalendar.Visible = true;
+            flpCalendar.Visible = true;
+            btnPreviousMonth.Visible = true;
+            btnNextMonth.Visible = true;
+            lblCalendarTitle.Visible = true;
+        }
 
-    btnPreviousMonth.Visible = true;
-    btnNextMonth.Visible = true;
-    lblCalendarTitle.Visible = true;
-}
+        private void ShowTasksView()
+        {
+            LoadTasks();
+
+            dgvTasks.Visible = true;
+            btnAddTask.Visible = true;
+            btnEditTask.Visible = true;
+            btnDeleteTask.Visible = true;
+
+            flpCalendar.Visible = false;
+            btnPreviousMonth.Visible = false;
+            btnNextMonth.Visible = false;
+            lblCalendarTitle.Visible = false;
+        }
+
         private void LoadCalendar()
         {
             flpCalendar.Controls.Clear();
 
             var tasks = _repository.GetAll();
 
-            DateTime firstDay =
-                new DateTime(
-                    _currentCalendarMonth.Year,
-                    _currentCalendarMonth.Month,
-                    1);
+            DateTime firstDay = new DateTime(
+                _currentCalendarMonth.Year,
+                _currentCalendarMonth.Month,
+                1);
 
             lblCalendarTitle.Text =
                 _currentCalendarMonth.ToString("MMMM yyyy");
 
-            int daysInMonth =
-                DateTime.DaysInMonth(
-                    _currentCalendarMonth.Year,
-                    _currentCalendarMonth.Month);
+            int daysInMonth = DateTime.DaysInMonth(
+                _currentCalendarMonth.Year,
+                _currentCalendarMonth.Month);
 
             for (int i = 0; i < daysInMonth; i++)
             {
-                CalendarDayControl day =
-                    new CalendarDayControl();
+                CalendarDayControl day = new CalendarDayControl();
 
-                DateTime currentDay =
-                    firstDay.AddDays(i);
+                DateTime currentDay = firstDay.AddDays(i);
 
                 string taskText = "";
+                string priority = "";
 
                 foreach (var task in tasks)
                 {
                     if (task.StartDate.Date == currentDay.Date)
                     {
-                        taskText +=
-                            task.Name +
-                            "\n" +
-                            task.UserName +
-                            "\n";
+                        taskText += task.Name + "\n" + task.UserName + "\n";
+
+                        if (task.Priority == "High")
+                            priority = "High";
+                        else if (task.Priority == "Medium" && priority != "High")
+                            priority = "Medium";
+                        else if (task.Priority == "Low" && priority == "")
+                            priority = "Low";
                     }
                 }
 
-                day.SetDay(currentDay, taskText);
-
+                day.SetDay(currentDay, taskText, priority);
                 flpCalendar.Controls.Add(day);
             }
         }
 
-        // Add Task mygtukas
         private void btnAddTask_Click(object sender, EventArgs e)
         {
             AddTask addTaskForm = new AddTask();
@@ -134,6 +171,7 @@ namespace TaskFlow
                     StartDate = addTaskForm.StartDate,
                     EndDate = addTaskForm.EndDate,
                     Status = "Planned",
+                    Priority = addTaskForm.TaskPriority,
                     UserName = _currentUserName
                 };
 
@@ -144,7 +182,6 @@ namespace TaskFlow
             }
         }
 
-        // Delete Task mygtukas
         private void btnDeleteTask_Click(object sender, EventArgs e)
         {
             if (dgvTasks.SelectedRows.Count > 0)
@@ -172,26 +209,43 @@ namespace TaskFlow
             }
         }
 
-        // // Dashboard mygtukas – grąžina į pagrindinį užduočių vaizdą
-        private void Dashboard_Click(object sender, EventArgs e)
+        private void btnEditTask_Click(object sender, EventArgs e)
         {
-            LoadTasks();
+            if (dgvTasks.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Please select a task first.");
+                return;
+            }
 
-            dgvTasks.Visible = true;
-            btnAddTask.Visible = true;
-            btnDeleteTask.Visible = true;
-            flpCalendar.Visible = false;
-            btnPreviousMonth.Visible = false;
-            btnNextMonth.Visible = false;
-            lblCalendarTitle.Visible = false;
-            btnEditTask.Visible = true;
+            TaskItem selectedTask =
+                (TaskItem)dgvTasks.SelectedRows[0].DataBoundItem;
+
+            AddTask editForm = new AddTask();
+            editForm.SetTask(selectedTask);
+
+            if (editForm.ShowDialog() == DialogResult.OK)
+            {
+                selectedTask.Name = editForm.TaskName;
+                selectedTask.Description = editForm.TaskDescription;
+                selectedTask.StartDate = editForm.StartDate;
+                selectedTask.EndDate = editForm.EndDate;
+                selectedTask.Priority = editForm.TaskPriority;
+
+                _repository.UpdateTask(selectedTask);
+                LoadTasks();
+
+                MessageBox.Show("Task updated successfully!");
+            }
         }
 
-        // My Tasks mygtukas – rodo visas užduotis
+        private void Dashboard_Click(object sender, EventArgs e)
+        {
+            ShowTasksView();
+        }
+
         private void MyTasks_Click(object sender, EventArgs e)
         {
             dgvTasks.Visible = true;
-
             btnAddTask.Visible = true;
             btnDeleteTask.Visible = true;
             btnEditTask.Visible = true;
@@ -206,30 +260,18 @@ namespace TaskFlow
             dgvTasks.DataSource =
                 _repository
                 .GetAll()
-                .Where(t => t.UserName == "Brigita")
+                .Where(t => t.UserName == _currentUserName)
                 .ToList();
 
-            if (dgvTasks.Columns["Id"] != null)
-                dgvTasks.Columns["Id"].Visible = false;
+            FormatGridColumns();
+            ColorPriorityRows();
         }
 
-        // Calendar mygtukas – rodo kalendoriaus vaizdą
         private void Calendar_Click_1(object sender, EventArgs e)
         {
-            dgvTasks.Visible = false;
-            btnAddTask.Visible = false;
-            btnDeleteTask.Visible = false;
-            btnPreviousMonth.Visible = true;
-            btnNextMonth.Visible = true;
-            lblCalendarTitle.Visible = true;
-            btnEditTask.Visible = false;
-
-            flpCalendar.Visible = true;
-            LoadCalendar();
+            ShowCalendarView();
         }
 
-
-        // Statistics mygtukas – vėliau čia bus statistikos vaizdas
         private void Statistics_Click_1(object sender, EventArgs e)
         {
             MessageBox.Show("Statistics view will be added later.");
@@ -243,43 +285,12 @@ namespace TaskFlow
             LoadCalendar();
         }
 
-
         private void btnNextMonth_Click(object sender, EventArgs e)
         {
             _currentCalendarMonth =
                 _currentCalendarMonth.AddMonths(1);
 
             LoadCalendar();
-        }
-
-        private void btnEditTask_Click(object sender, EventArgs e)
-        {
-            if (dgvTasks.SelectedRows.Count == 0)
-            {
-                MessageBox.Show("Please select a task first.");
-                return;
-            }
-
-            TaskItem selectedTask =
-                (TaskItem)dgvTasks.SelectedRows[0].DataBoundItem;
-
-            AddTask editForm = new AddTask();
-
-            editForm.SetTask(selectedTask);
-
-            if (editForm.ShowDialog() == DialogResult.OK)
-            {
-                selectedTask.Name = editForm.TaskName;
-                selectedTask.Description = editForm.TaskDescription;
-                selectedTask.StartDate = editForm.StartDate;
-                selectedTask.EndDate = editForm.EndDate;
-
-                _repository.UpdateTask(selectedTask);
-
-                LoadTasks();
-
-                MessageBox.Show("Task updated successfully!");
-            }
         }
     }
 }

@@ -16,10 +16,19 @@ namespace TaskFlow.Controls
             BackColor = Color.White;
         }
 
-        public void SetDay(DateTime date, string taskText = "")
+        public void SetDay(DateTime date, string taskText = "", string priority = "")
         {
             Date = date;
             Controls.Clear();
+
+            BackColor = Color.White;
+
+            if (priority == "High")
+                BackColor = Color.LightCoral;
+            else if (priority == "Medium")
+                BackColor = Color.Khaki;
+            else if (priority == "Low")
+                BackColor = Color.LightGreen;
 
             Label lblDay = new Label
             {
