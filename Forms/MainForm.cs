@@ -42,7 +42,7 @@ namespace TaskFlow
             UIHelper.StyleDataGridView(dgvTasks);
 
             // Užkrauna taskus
-            LoadTasks();
+            ShowDashboard();
         }
         // Užkrauna taskus į lentelę
         private void LoadTasks()
@@ -56,6 +56,22 @@ namespace TaskFlow
                 dgvTasks.Columns["Id"].Visible = false;
             }
         }
+        private void ShowDashboard()
+{
+    LoadCalendar();
+
+    dgvTasks.Visible = false;
+
+    btnAddTask.Visible = false;
+    btnEditTask.Visible = false;
+    btnDeleteTask.Visible = false;
+
+    flpCalendar.Visible = true;
+
+    btnPreviousMonth.Visible = true;
+    btnNextMonth.Visible = true;
+    lblCalendarTitle.Visible = true;
+}
         private void LoadCalendar()
         {
             flpCalendar.Controls.Clear();
