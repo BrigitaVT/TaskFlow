@@ -8,6 +8,7 @@ namespace TaskFlow
     public partial class AddTask : Form
     {
         private ComboBox PriorityComboBox;
+        private ComboBox StatusComboBox;
 
         public TaskItem TaskResult { get; set; }
 
@@ -16,11 +17,13 @@ namespace TaskFlow
         public DateTime StartDate => StartDatePicker.Value;
         public DateTime EndDate => EndDatePicker.Value;
         public string TaskPriority => PriorityComboBox.Text;
+        public string TaskStatus => StatusComboBox.Text;
 
         public AddTask()
         {
             InitializeComponent();
             CreatePriorityComboBox();
+            CreateStatusComboBox();
         }
 
         private void CreatePriorityComboBox()
@@ -48,6 +51,31 @@ namespace TaskFlow
             Controls.Add(PriorityComboBox);
         }
 
+        private void CreateStatusComboBox()
+        {
+            Label statusLabel = new Label
+            {
+                Text = "Būsena",
+                Location = new Point(45, 325),
+                AutoSize = true
+            };
+
+            StatusComboBox = new ComboBox
+            {
+                Location = new Point(130, 320),
+                Width = 160,
+                DropDownStyle = ComboBoxStyle.DropDownList
+            };
+
+            StatusComboBox.Items.Add("Planuojama");
+            StatusComboBox.Items.Add("Daroma");
+            StatusComboBox.Items.Add("Atlikta");
+            StatusComboBox.SelectedIndex = 0;
+
+            Controls.Add(statusLabel);
+            Controls.Add(StatusComboBox);
+        }
+
         private void TaskFinishButton_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.OK;
@@ -67,6 +95,7 @@ namespace TaskFlow
             StartDatePicker.Value = task.StartDate;
             EndDatePicker.Value = task.EndDate;
             PriorityComboBox.Text = task.Priority;
+            StatusComboBox.Text = task.Status;
         }
     }
 }

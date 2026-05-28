@@ -97,12 +97,28 @@ namespace TaskFlow
         {
             foreach (DataGridViewRow row in dgvTasks.Rows)
             {
-                if (row.Cells["Priority"].Value == null)
+                if (row.IsNewRow)
                     continue;
 
-                string priority = row.Cells["Priority"].Value.ToString();
-
                 row.DefaultCellStyle.BackColor = Color.White;
+                row.DefaultCellStyle.ForeColor = Color.Black;
+
+                string status = row.Cells["Status"].Value?.ToString();
+                string priority = row.Cells["Priority"].Value?.ToString();
+
+                if (status == "Atlikta")
+                {
+                    row.DefaultCellStyle.BackColor = Color.LightGray;
+                    row.DefaultCellStyle.ForeColor = Color.DarkGreen;
+                }
+                else if (status == "Daroma")
+                {
+                    row.Cells["Status"].Style.BackColor = Color.LightBlue;
+                }
+                else if (status == "Planuojama")
+                {
+                    row.Cells["Status"].Style.BackColor = Color.WhiteSmoke;
+                }
 
                 if (priority == "High")
                     row.Cells["Priority"].Style.BackColor = Color.LightCoral;
@@ -144,6 +160,8 @@ namespace TaskFlow
             lblCalendarTitle.Visible = false;
         }
 
+        
+
         private void LoadCalendar()
         {
             flpCalendar.Controls.Clear();
@@ -155,27 +173,71 @@ namespace TaskFlow
                 _currentCalendarMonth.Month,
                 1);
 
-            lblCalendarTitle.Text =
+            string monthTitle =
                 _currentCalendarMonth.ToString("MMMM yyyy");
+
+            lblCalendarTitle.Text =
+                char.ToUpper(monthTitle[0]) +
+                monthTitle.Substring(1);
 
             int daysInMonth = DateTime.DaysInMonth(
                 _currentCalendarMonth.Year,
                 _currentCalendarMonth.Month);
 
+            int startOffset =
+                ((int)firstDay.DayOfWeek + 6) % 7;
+
+            DateTime previousMonth =
+    firstDay.AddMonths(-1);
+
+            int previousMonthDays =
+                DateTime.DaysInMonth(
+                    previousMonth.Year,
+                    previousMonth.Month);
+
+            for (int i = startOffset - 1; i >= 0; i--)
+            {
+                DateTime inactiveDate =
+                    new DateTime(
+                        previousMonth.Year,
+                        previousMonth.Month,
+                        previousMonthDays - i);
+
+                CalendarDayControl inactiveDay =
+                    new CalendarDayControl();
+
+                inactiveDay.SetInactiveDay(inactiveDate);
+
+                flpCalendar.Controls.Add(inactiveDay);
+            }
+
             for (int i = 0; i < daysInMonth; i++)
             {
-                CalendarDayControl day = new CalendarDayControl();
+                CalendarDayControl day =
+                    new CalendarDayControl();
 
-                DateTime currentDay = firstDay.AddDays(i);
+                DateTime currentDay =
+                    firstDay.AddDays(i);
 
                 string taskText = "";
                 string priority = "";
+                string description = "";
 
                 foreach (var task in tasks)
                 {
                     if (task.StartDate.Date == currentDay.Date)
                     {
-                        taskText += task.Name + "\n" + task.UserName + "\n";
+                        string status = task.Status;
+
+                        if (status == "Planned")
+                            status = "Planuojama";
+
+                        taskText +=
+                            task.Name + "\n" +
+                            status + "\n" +
+                            task.UserName + "\n";
+
+                        description += task.Description + "\n\n";
 
                         if (task.Priority == "High")
                             priority = "High";
@@ -186,11 +248,16 @@ namespace TaskFlow
                     }
                 }
 
-                day.SetDay(currentDay, taskText, priority);
+                day.SetDay(
+                    currentDay,
+                    taskText,
+                    priority,
+                    description);
+
                 flpCalendar.Controls.Add(day);
             }
+        
         }
-
         private void btnAddTask_Click(object sender, EventArgs e)
         {
             AddTask addTaskForm = new AddTask();
@@ -203,18 +270,19 @@ namespace TaskFlow
                     Description = addTaskForm.TaskDescription,
                     StartDate = addTaskForm.StartDate,
                     EndDate = addTaskForm.EndDate,
-                    Status = "Planned",
+                    Status = addTaskForm.TaskStatus,
                     Priority = addTaskForm.TaskPriority,
                     UserName = _currentUserName
                 };
 
                 _repository.AddTask(task);
+
                 LoadTasks();
+                LoadCalendar();
 
                 MessageBox.Show("Task added successfully!");
             }
         }
-
         private void btnDeleteTask_Click(object sender, EventArgs e)
         {
             if (dgvTasks.SelectedRows.Count > 0)
@@ -263,6 +331,7 @@ namespace TaskFlow
                 selectedTask.StartDate = editForm.StartDate;
                 selectedTask.EndDate = editForm.EndDate;
                 selectedTask.Priority = editForm.TaskPriority;
+                selectedTask.Status = editForm.TaskStatus;
 
                 _repository.UpdateTask(selectedTask);
                 LoadTasks();
@@ -360,7 +429,7 @@ namespace TaskFlow
 
             lblCompletedTasks.Text =
                 "Atliktos užduotys: " +
-                tasks.Count(t => t.Status == "Completed");
+                tasks.Count(t => t.Status == "Atlikta");
         }
 
         private void btnPreviousMonth_Click(object sender, EventArgs e)
