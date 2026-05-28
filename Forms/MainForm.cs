@@ -48,10 +48,22 @@ namespace TaskFlow
         private void LoadTasks()
         {
             dgvTasks.DataSource = null;
+
             dgvTasks.DataSource = _repository.GetAll();
 
             FormatGridColumns();
+
+            dgvTasks.ClearSelection();
+
+            Application.DoEvents();
+
             ColorPriorityRows();
+
+            dgvTasks.ClearSelection();
+
+            dgvTasks.CurrentCell = null;
+
+            dgvTasks.Refresh();
         }
 
         private void FormatGridColumns()
@@ -59,11 +71,23 @@ namespace TaskFlow
             if (dgvTasks.Columns["Id"] != null)
                 dgvTasks.Columns["Id"].Visible = false;
 
-            if (dgvTasks.Columns["Priority"] != null)
-                dgvTasks.Columns["Priority"].HeaderText = "Svarbumas";
+            if (dgvTasks.Columns["Name"] != null)
+                dgvTasks.Columns["Name"].HeaderText = "Pavadinimas";
+
+            if (dgvTasks.Columns["Description"] != null)
+                dgvTasks.Columns["Description"].HeaderText = "Aprašymas";
+
+            if (dgvTasks.Columns["StartDate"] != null)
+                dgvTasks.Columns["StartDate"].HeaderText = "Pradžia";
+
+            if (dgvTasks.Columns["EndDate"] != null)
+                dgvTasks.Columns["EndDate"].HeaderText = "Pabaiga";
 
             if (dgvTasks.Columns["Status"] != null)
                 dgvTasks.Columns["Status"].HeaderText = "Būsena";
+
+            if (dgvTasks.Columns["Priority"] != null)
+                dgvTasks.Columns["Priority"].HeaderText = "Svarbumas";
 
             if (dgvTasks.Columns["UserName"] != null)
                 dgvTasks.Columns["UserName"].HeaderText = "Naudotojas";
@@ -78,12 +102,14 @@ namespace TaskFlow
 
                 string priority = row.Cells["Priority"].Value.ToString();
 
+                row.DefaultCellStyle.BackColor = Color.White;
+
                 if (priority == "High")
-                    row.DefaultCellStyle.BackColor = Color.LightCoral;
+                    row.Cells["Priority"].Style.BackColor = Color.LightCoral;
                 else if (priority == "Medium")
-                    row.DefaultCellStyle.BackColor = Color.Khaki;
+                    row.Cells["Priority"].Style.BackColor = Color.Khaki;
                 else if (priority == "Low")
-                    row.DefaultCellStyle.BackColor = Color.LightGreen;
+                    row.Cells["Priority"].Style.BackColor = Color.LightGreen;
             }
         }
 
@@ -248,6 +274,14 @@ namespace TaskFlow
         private void Dashboard_Click(object sender, EventArgs e)
         {
             ShowTasksView();
+
+            dgvTasks.ClearSelection();
+
+            dgvTasks.CurrentCell = null;
+
+            ColorPriorityRows();
+
+            dgvTasks.Refresh();
         }
 
         private void MyTasks_Click(object sender, EventArgs e)
@@ -263,10 +297,6 @@ namespace TaskFlow
             btnPreviousMonth.Visible = false;
             btnNextMonth.Visible = false;
             lblCalendarTitle.Visible = false;
-            lblTotalTasks.Visible = false;
-            lblMyTasks.Visible = false;
-            lblHighPriority.Visible = false;
-            lblCompletedTasks.Visible = false;
 
             dgvTasks.DataSource = null;
 
@@ -278,6 +308,10 @@ namespace TaskFlow
 
             FormatGridColumns();
             ColorPriorityRows();
+
+            dgvTasks.ClearSelection();
+            dgvTasks.CurrentCell = null;
+            dgvTasks.Refresh();
         }
         private void HideStatisticsLabels()
         {

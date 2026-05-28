@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.btnAddTask = new System.Windows.Forms.Button();
             this.dgvTasks = new System.Windows.Forms.DataGridView();
             this.sidebarPanel1 = new System.Windows.Forms.Panel();
@@ -54,14 +54,14 @@
             // 
             this.btnAddTask.BackColor = System.Drawing.Color.SteelBlue;
             this.btnAddTask.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnAddTask.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAddTask.Font = new System.Drawing.Font("Segoe UI", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnAddTask.ForeColor = System.Drawing.Color.White;
-            this.btnAddTask.Location = new System.Drawing.Point(430, 55);
+            this.btnAddTask.Location = new System.Drawing.Point(470, 55);
             this.btnAddTask.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnAddTask.Name = "btnAddTask";
-            this.btnAddTask.Size = new System.Drawing.Size(170, 45);
+            this.btnAddTask.Size = new System.Drawing.Size(190, 50);
             this.btnAddTask.TabIndex = 0;
-            this.btnAddTask.Text = "Add Task";
+            this.btnAddTask.Text = "Pridėti";
             this.btnAddTask.UseVisualStyleBackColor = false;
             this.btnAddTask.Click += new System.EventHandler(this.btnAddTask_Click);
             // 
@@ -70,25 +70,25 @@
             this.dgvTasks.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.ColumnHeader;
             this.dgvTasks.BackgroundColor = System.Drawing.Color.White;
             this.dgvTasks.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle11.BackColor = System.Drawing.Color.LightSteelBlue;
-            dataGridViewCellStyle11.Font = new System.Drawing.Font("Segoe UI Emoji", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle11.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvTasks.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.LightSteelBlue;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI Emoji", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvTasks.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dgvTasks.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvTasks.EnableHeadersVisualStyles = false;
             this.dgvTasks.GridColor = System.Drawing.Color.Gainsboro;
-            this.dgvTasks.Location = new System.Drawing.Point(246, 103);
+            this.dgvTasks.Location = new System.Drawing.Point(300, 180);
             this.dgvTasks.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.dgvTasks.MultiSelect = false;
             this.dgvTasks.Name = "dgvTasks";
             this.dgvTasks.RowHeadersWidth = 51;
             this.dgvTasks.RowTemplate.Height = 24;
             this.dgvTasks.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvTasks.Size = new System.Drawing.Size(642, 503);
+            this.dgvTasks.Size = new System.Drawing.Size(1100, 620);
             this.dgvTasks.TabIndex = 1;
             // 
             // sidebarPanel1
@@ -110,7 +110,7 @@
             this.MyTasks.Name = "MyTasks";
             this.MyTasks.Size = new System.Drawing.Size(75, 23);
             this.MyTasks.TabIndex = 3;
-            this.MyTasks.Text = "MyTasks";
+            this.MyTasks.Text = "Mano užduotys";
             this.MyTasks.UseVisualStyleBackColor = true;
             this.MyTasks.Click += new System.EventHandler(this.MyTasks_Click);
             // 
@@ -120,7 +120,7 @@
             this.Calendar.Name = "Calendar";
             this.Calendar.Size = new System.Drawing.Size(75, 23);
             this.Calendar.TabIndex = 2;
-            this.Calendar.Text = "Calendar";
+            this.Calendar.Text = "Kalendorius";
             this.Calendar.UseVisualStyleBackColor = true;
             this.Calendar.Click += new System.EventHandler(this.Calendar_Click_1);
             // 
@@ -130,7 +130,7 @@
             this.Statistics.Name = "Statistics";
             this.Statistics.Size = new System.Drawing.Size(75, 23);
             this.Statistics.TabIndex = 1;
-            this.Statistics.Text = "Statistics";
+            this.Statistics.Text = "Statistika";
             this.Statistics.UseVisualStyleBackColor = true;
             this.Statistics.Click += new System.EventHandler(this.Statistics_Click_1);
             // 
@@ -143,7 +143,7 @@
             this.Dashboard.Name = "Dashboard";
             this.Dashboard.Size = new System.Drawing.Size(200, 45);
             this.Dashboard.TabIndex = 0;
-            this.Dashboard.Text = "Dashboard";
+            this.Dashboard.Text = "Visos užduotys";
             this.Dashboard.UseVisualStyleBackColor = true;
             this.Dashboard.Click += new System.EventHandler(this.Dashboard_Click);
             // 
@@ -151,14 +151,14 @@
             // 
             this.btnDeleteTask.BackColor = System.Drawing.Color.IndianRed;
             this.btnDeleteTask.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDeleteTask.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDeleteTask.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnDeleteTask.ForeColor = System.Drawing.Color.White;
-            this.btnDeleteTask.Location = new System.Drawing.Point(870, 55);
+            this.btnDeleteTask.Location = new System.Drawing.Point(930, 55);
             this.btnDeleteTask.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnDeleteTask.Name = "btnDeleteTask";
-            this.btnDeleteTask.Size = new System.Drawing.Size(170, 45);
+            this.btnDeleteTask.Size = new System.Drawing.Size(190, 50);
             this.btnDeleteTask.TabIndex = 3;
-            this.btnDeleteTask.Text = "Delete Task";
+            this.btnDeleteTask.Text = "Ištrinti";
             this.btnDeleteTask.UseVisualStyleBackColor = false;
             this.btnDeleteTask.Click += new System.EventHandler(this.btnDeleteTask_Click);
             // 
@@ -206,14 +206,14 @@
             // 
             this.btnEditTask.BackColor = System.Drawing.Color.LightCoral;
             this.btnEditTask.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnEditTask.Font = new System.Drawing.Font("Segoe UI", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEditTask.Font = new System.Drawing.Font("Segoe UI", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEditTask.ForeColor = System.Drawing.Color.White;
-            this.btnEditTask.Location = new System.Drawing.Point(650, 55);
+            this.btnEditTask.Location = new System.Drawing.Point(700, 55);
             this.btnEditTask.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.btnEditTask.Name = "btnEditTask";
-            this.btnEditTask.Size = new System.Drawing.Size(170, 45);
+            this.btnEditTask.Size = new System.Drawing.Size(190, 50);
             this.btnEditTask.TabIndex = 9;
-            this.btnEditTask.Text = "Edit Task";
+            this.btnEditTask.Text = "Redaguoti";
             this.btnEditTask.UseVisualStyleBackColor = false;
             this.btnEditTask.Click += new System.EventHandler(this.btnEditTask_Click);
             // 
