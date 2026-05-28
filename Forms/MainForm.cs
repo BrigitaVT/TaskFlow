@@ -21,11 +21,17 @@ namespace TaskFlow
 
             _currentUserName = userName;
             _repository.EnsureDatabase();
+            HideStatisticsLabels();
 
             btnPreviousMonth.Visible = false;
             btnNextMonth.Visible = false;
             lblCalendarTitle.Visible = false;
             flpCalendar.Visible = false;
+            lblTotalTasks.Visible = false;
+            lblMyTasks.Visible = false;
+            lblHighPriority.Visible = false;
+            lblCompletedTasks.Visible = false;
+
 
             btnPreviousMonth.BringToFront();
             btnNextMonth.BringToFront();
@@ -98,6 +104,7 @@ namespace TaskFlow
 
         private void ShowTasksView()
         {
+            HideStatisticsLabels();
             LoadTasks();
 
             dgvTasks.Visible = true;
@@ -245,6 +252,8 @@ namespace TaskFlow
 
         private void MyTasks_Click(object sender, EventArgs e)
         {
+            HideStatisticsLabels();
+
             dgvTasks.Visible = true;
             btnAddTask.Visible = true;
             btnDeleteTask.Visible = true;
@@ -254,6 +263,10 @@ namespace TaskFlow
             btnPreviousMonth.Visible = false;
             btnNextMonth.Visible = false;
             lblCalendarTitle.Visible = false;
+            lblTotalTasks.Visible = false;
+            lblMyTasks.Visible = false;
+            lblHighPriority.Visible = false;
+            lblCompletedTasks.Visible = false;
 
             dgvTasks.DataSource = null;
 
@@ -266,15 +279,54 @@ namespace TaskFlow
             FormatGridColumns();
             ColorPriorityRows();
         }
-
+        private void HideStatisticsLabels()
+        {
+            lblTotalTasks.Visible = false;
+            lblMyTasks.Visible = false;
+            lblHighPriority.Visible = false;
+            lblCompletedTasks.Visible = false;
+        }
         private void Calendar_Click_1(object sender, EventArgs e)
         {
             ShowCalendarView();
+            HideStatisticsLabels(); HideStatisticsLabels();
         }
 
         private void Statistics_Click_1(object sender, EventArgs e)
         {
-            MessageBox.Show("Statistics view will be added later.");
+            dgvTasks.Visible = false;
+
+            flpCalendar.Visible = false;
+
+            btnAddTask.Visible = false;
+            btnDeleteTask.Visible = false;
+            btnEditTask.Visible = false;
+
+            btnPreviousMonth.Visible = false;
+            btnNextMonth.Visible = false;
+            lblCalendarTitle.Visible = false;
+
+            var tasks = _repository.GetAll();
+
+            lblTotalTasks.Visible = true;
+            lblMyTasks.Visible = true;
+            lblHighPriority.Visible = true;
+            lblCompletedTasks.Visible = true;
+
+            lblTotalTasks.Text =
+                "Visos užduotys: " + tasks.Count;
+
+            lblMyTasks.Text =
+                "Mano užduotys: " +
+                tasks.Count(t => t.UserName == _currentUserName);
+
+            lblHighPriority.Text =
+                "Svarbios užduotys: " +
+                tasks.Count(t => t.Priority == "High");
+
+            lblCompletedTasks.Text =
+                "Atliktos užduotys: " +
+                tasks.Count(t => t.Status == "Completed");
         }
 
         private void btnPreviousMonth_Click(object sender, EventArgs e)

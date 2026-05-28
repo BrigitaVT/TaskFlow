@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
             this.btnAddTask = new System.Windows.Forms.Button();
             this.dgvTasks = new System.Windows.Forms.DataGridView();
             this.sidebarPanel1 = new System.Windows.Forms.Panel();
@@ -42,6 +42,10 @@
             this.btnPreviousMonth = new System.Windows.Forms.Button();
             this.btnNextMonth = new System.Windows.Forms.Button();
             this.btnEditTask = new System.Windows.Forms.Button();
+            this.lblTotalTasks = new System.Windows.Forms.Label();
+            this.lblMyTasks = new System.Windows.Forms.Label();
+            this.lblHighPriority = new System.Windows.Forms.Label();
+            this.lblCompletedTasks = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvTasks)).BeginInit();
             this.sidebarPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -66,14 +70,14 @@
             this.dgvTasks.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.ColumnHeader;
             this.dgvTasks.BackgroundColor = System.Drawing.Color.White;
             this.dgvTasks.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.LightSteelBlue;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI Emoji", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvTasks.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle11.BackColor = System.Drawing.Color.LightSteelBlue;
+            dataGridViewCellStyle11.Font = new System.Drawing.Font("Segoe UI Emoji", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle11.ForeColor = System.Drawing.Color.White;
+            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvTasks.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle11;
             this.dgvTasks.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvTasks.EnableHeadersVisualStyles = false;
             this.dgvTasks.GridColor = System.Drawing.Color.Gainsboro;
@@ -97,7 +101,7 @@
             this.sidebarPanel1.Dock = System.Windows.Forms.DockStyle.Left;
             this.sidebarPanel1.Location = new System.Drawing.Point(0, 0);
             this.sidebarPanel1.Name = "sidebarPanel1";
-            this.sidebarPanel1.Size = new System.Drawing.Size(229, 619);
+            this.sidebarPanel1.Size = new System.Drawing.Size(229, 732);
             this.sidebarPanel1.TabIndex = 2;
             // 
             // MyTasks
@@ -213,12 +217,64 @@
             this.btnEditTask.UseVisualStyleBackColor = false;
             this.btnEditTask.Click += new System.EventHandler(this.btnEditTask_Click);
             // 
+            // lblTotalTasks
+            // 
+            this.lblTotalTasks.BackColor = System.Drawing.Color.AliceBlue;
+            this.lblTotalTasks.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblTotalTasks.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblTotalTasks.Location = new System.Drawing.Point(300, 120);
+            this.lblTotalTasks.Name = "lblTotalTasks";
+            this.lblTotalTasks.Size = new System.Drawing.Size(250, 100);
+            this.lblTotalTasks.TabIndex = 10;
+            this.lblTotalTasks.Text = "📋 Visos užduotys";
+            this.lblTotalTasks.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblMyTasks
+            // 
+            this.lblMyTasks.BackColor = System.Drawing.Color.Honeydew;
+            this.lblMyTasks.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblMyTasks.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMyTasks.Location = new System.Drawing.Point(600, 120);
+            this.lblMyTasks.Name = "lblMyTasks";
+            this.lblMyTasks.Size = new System.Drawing.Size(250, 100);
+            this.lblMyTasks.TabIndex = 11;
+            this.lblMyTasks.Text = "👤 Mano užduotys";
+            this.lblMyTasks.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblHighPriority
+            // 
+            this.lblHighPriority.BackColor = System.Drawing.Color.MistyRose;
+            this.lblHighPriority.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblHighPriority.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblHighPriority.Location = new System.Drawing.Point(300, 260);
+            this.lblHighPriority.Name = "lblHighPriority";
+            this.lblHighPriority.Size = new System.Drawing.Size(250, 100);
+            this.lblHighPriority.TabIndex = 12;
+            this.lblHighPriority.Text = "🔥 Svarbios užduotys";
+            this.lblHighPriority.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblCompletedTasks
+            // 
+            this.lblCompletedTasks.BackColor = System.Drawing.Color.LemonChiffon;
+            this.lblCompletedTasks.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblCompletedTasks.Font = new System.Drawing.Font("Segoe UI", 13.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCompletedTasks.Location = new System.Drawing.Point(600, 260);
+            this.lblCompletedTasks.Name = "lblCompletedTasks";
+            this.lblCompletedTasks.Size = new System.Drawing.Size(250, 100);
+            this.lblCompletedTasks.TabIndex = 13;
+            this.lblCompletedTasks.Text = "✅ Atliktos užduotys";
+            this.lblCompletedTasks.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 22F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.ClientSize = new System.Drawing.Size(900, 619);
+            this.ClientSize = new System.Drawing.Size(1361, 732);
+            this.Controls.Add(this.lblCompletedTasks);
+            this.Controls.Add(this.lblHighPriority);
+            this.Controls.Add(this.lblMyTasks);
+            this.Controls.Add(this.lblTotalTasks);
             this.Controls.Add(this.btnEditTask);
             this.Controls.Add(this.btnNextMonth);
             this.Controls.Add(this.btnPreviousMonth);
@@ -255,6 +311,10 @@
         private System.Windows.Forms.Button btnPreviousMonth;
         private System.Windows.Forms.Button btnNextMonth;
         private System.Windows.Forms.Button btnEditTask;
+        private System.Windows.Forms.Label lblTotalTasks;
+        private System.Windows.Forms.Label lblMyTasks;
+        private System.Windows.Forms.Label lblHighPriority;
+        private System.Windows.Forms.Label lblCompletedTasks;
     }
 }
 
